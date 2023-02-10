@@ -1,18 +1,18 @@
-@Turn creator v1.0@
+Turn creator v1.01
+===============
 
-
-ABOUT
 _____
+ABOUT
 
 A small program originally written for use in Senran Kagura: Peach Beach Splash to help manage player rotation during events.
 
 The program takes a total list of players, separates them into unique turns, and saves the output to a file (_out.txt by default).
 
 
-HOW TO USE
 __________
+HOW TO USE
 
-At the moment the can only be run in Python.
+At the moment the can program only be run in Python.
 
 To run the program from command prompt, access the folder containing the program, run main.py and specify the player file as the argument as follows:
 
@@ -29,8 +29,9 @@ The behavior of the program can be modified by changing the values of parameters
 See the comments in the code of main.py and turn_creator.py for more information.
 
 
-CREDITS
 _______
+CREDITS
 
 Written by FX in Python 3.11.1
+
 Inspired by prettytail's ranked event player management
