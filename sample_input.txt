@@ -1,0 +1,7 @@
+Player A	: Master
+Player B	: 1st
+Player C	: 1st
+Player D	: 2nd
+Player E	: 2nd
+Player F	: 3nd
+Player G	: 4th
