@@ -29,6 +29,7 @@
 """
 
 import sys
+import os
 import turn_creator
 
 # stuff
@@ -42,14 +43,15 @@ output_filename = "_out.txt"    # default name for the output file
 # ____________________________________________________
 
 def load_players(player_file_path):
-    player_file = open(player_file_path)
-    if(not player_file):
-        print("Couldn't find the players file")
+    if(not os.path.exists(player_file_path)):
+        print("Couldn't find the player file")
     else:
+        player_file = open(player_file_path, "r")
         while(player_file):
+            # separate player name and tier using ":"
             x = (player_file.readline()).rsplit(":")
-    
-            # break out of loop if line is empty or has too much stuff
+
+            # break out of loop if line is empty
             if(len(x) <= 1):
                 player_file.close()
                 break
@@ -57,12 +59,12 @@ def load_players(player_file_path):
                 continue
             x[0] = x[0].strip()
             x[1] = x[1].strip("\n\t ")
-    
+
             # add player
             players[x[0]] = x[1]
     
-    player_file.close()
-    print("Successfully loaded players.")
+        player_file.close()
+        print("Successfully loaded players.")
 
 def load_config():
     global lobby_size, lobby_creator_preference, output_mode
@@ -72,19 +74,18 @@ def load_config():
         print("Couldn't find the config file; sticking to default values")
     else:
         while(config_file):
-            # load lobby size
             x = (config_file.readline()).rsplit(" ")
             if(len(x) <= 1):
                 config_file.close()
                 break
-            
+
             if(x[0] == "LOBBY_SIZE"):
                 lobby_size = int(x[1])
             if(x[0] == "LOBBY_CREATOR_PREFERENCE"):
                 lobby_creator_preference = x[1].strip("\n\t ")
             if(x[0] == "OUTPUT_MODE"):
                 output_mode = int(x[1].strip("\n\t "))
-    
+
     config_file.close()
     print("Successfully loaded configuration.")
 
@@ -103,18 +104,21 @@ if(len(sys.argv) > 1):
     if(len(sys.argv) > 2):
         output_filename = sys.argv[2]
     
-    # load the files
-    load_players(sys.argv[1]) # pass first argument as player file
-    load_config()
+    # load the player file
+    load_players(sys.argv[1])
     
-    # create player turns
-    player_turns = turn_creator.create(players, lobby_size, lobby_creator_preference)
-    
-    # write player turns to console
-    turn_creator.print_turns(player_turns, output_mode)
-    
-    # write player turns to file
-    write_to_file(turn_creator.output_turns(player_turns, output_mode))
+    # if player file processed successfully, load everything else
+    if(bool(players)):
+        load_config()
+        
+        # create player turns
+        player_turns = turn_creator.create(players, lobby_size, lobby_creator_preference, output_mode)
+        
+        # write player turns to console
+        #turn_creator.print_turns(player_turns, output_mode)
+        
+        # write player turns to file
+        write_to_file(turn_creator.output_turns(players, player_turns, lobby_creator_preference, output_mode))
 
 else:
     print("Player file missing. Please provide one.")
