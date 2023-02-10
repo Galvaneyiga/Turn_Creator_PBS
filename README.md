@@ -12,7 +12,7 @@ The program takes a total list of players, separates them into unique turns, and
 __________
 HOW TO USE
 
-At the moment the can only be run in Python.
+At the moment the can program only be run in Python.
 
 To run the program from command prompt, access the folder containing the program, run main.py and specify the player file as the argument as follows:
 
